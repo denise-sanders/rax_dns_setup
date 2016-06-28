@@ -66,7 +66,12 @@ def send_record(record,dns,dom):
         if 'OverLimit Retry' in str(e):
             # Waits a second and then tries again
             sleep(1)
-            send_record(record,dns,dom)
+            try:
+                send_record(record,dns,dom)
+                debug.write("OverLimit Retry failed to reset\n")
+                return "success"
+            except:
+                return "failure"
         if 'Validation failed' in str(e):
             if debug:
                 debug.write(record['name'] + " validation failed\n")
